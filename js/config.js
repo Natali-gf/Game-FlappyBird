@@ -24,6 +24,41 @@ export default class Config {
 			h: 110,
 		}]
 	}
+	bird = {
+		x: 50,
+		y: 300,
+		w:34,
+		h:26,
+
+		flapSpeed: 300,
+
+		frames: [
+		{
+			x:276,
+			y:112,
+			w:34,
+			h:26,
+		},
+		{
+			x:276,
+			y:139,
+			w:34,
+			h:26,
+		},
+		{
+			x:276,
+			y:164,
+			w:34,
+			h:26,
+		},
+		{
+			x:276,
+			y:139,
+			w:34,
+			h:26,
+		}
+	]
+	}
 }
 
 // export const currentScore = document.getElementById('score');

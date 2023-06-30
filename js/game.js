@@ -1,22 +1,48 @@
 import GameCycle from "./gameCycle.js";
-import Loader from './loader.js';
+import Loader from './resources.js';
 import Config from "./config.js";
-import { RESOURCE_TYPE } from "./loader.js";
+import { RESOURCE_TYPE } from "./resources.js";
 
 export default class Game {
-	constructor(canvas){
+	constructor(){
 		this.config = new Config()
-		this.loader = new Loader()
-		this.spritesheet = this.config.spritesheet;
-		// this.buttonRestart = buttonRestart;
-		// this.startField = startField
-		this.canvas = canvas;
-		// this.speedConstant = speedConstant;
+		// document.createElement("canvas");
+		// context = canvas.getContext('2d');
+		this.canvas = document.getElementById(config.canvas.id)
+		this.canvas.width = this.config.canvas.width
+		this.canvas.height = this.config.canvas.height
 
-		// this.snake = new Snake();
-		// this.apple = new Apple(this.snake.tail);
-		// this.score = new Score(currentScore, bestResult);
-		this.gameCycle = new GameCycle(this.update.bind(this), this.draw.bind(this));
+		this.width = this.config.canvas.width
+		this.height = this.config.canvas.height
+
+		this. drawEngine =
+		this.physicsEngine =
+		this.spriteSheet =
+
+		this.bird = new Bird({
+			x: this.config.bird.x,
+			y: this.config.bird.y,
+			width: this.config.bird.width,
+			height: this.config.bird.height,
+			frames: this.config.bird.frames,
+			spriteSheet,
+			flapSpeed: this.config.bird.flapSpeed,
+			physicsEngine: this.physicsEngine,
+			drawEngine: this.drawEngine,
+			game: this,
+		})
+		// this.config = new Config()
+		// this.loader = new Loader()
+		// this.spritesheet = this.config.spritesheet;
+		// // this.buttonRestart = buttonRestart;
+		// // this.startField = startField
+		// this.canvas = canvas;
+		// // this.speedConstant = speedConstant;
+
+		// // this.snake = new Snake();
+		// // this.apple = new Apple(this.snake.tail);
+		// // this.score = new Score(currentScore, bestResult);
+		// this.gameCycle = new GameCycle(this.update.bind(this), this.draw.bind(this));
 
 		// this.subscribeToStart()
 	}
@@ -28,16 +54,16 @@ export default class Game {
 
 	}
 
-	loadGame(){
-		console.log(this.loader.imageLoad());
-		console.log(this.config.spritesheet.src);
+	async prepare(){
+		// console.log(this.loader.imageLoad());
+		// console.log(this.config.spritesheet.src);
 		// console.log(RESOURCE_TYPE.IMAGE);
 		// this.RESOURCE_TYPE = RESOURCE_TYPE
-		this.loader.imageLoad(
-			// type: this.RESOURSE_TYPE.IMAGE,
-			this.config.spritesheet.src,
-			this.config.spritesheet.width,
-			this.config.spritesheet.height,
+		this.spriteSheet = this.resourceLoader.load({
+			type: this.RESOURSE_TYPE.IMAGE,
+			src: this.config.spritesheet.src,
+			width: this.config.spritesheet.width,
+			height: this.config.spritesheet.height,}
 		)
 	}
 
