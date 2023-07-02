@@ -132,7 +132,6 @@ table {
 .canvas__field {
   border: 5px solid #1f1f1c;
   box-shadow: 5px 5px 40px 20px #1f1f1c;
-  background-image: url(../images/clever.svg);
   background-size: 50px 50px;
   background-color: #39accf;
 }

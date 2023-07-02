@@ -1,34 +1,31 @@
-class Bird {
-	constructor({x, y, width, height, frames, spriteSheet, flapSpeed, physicsEngine, drawEngine, game}){
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
-		this.frames = frames;
-		this.frameIdx = 0
-		this.spriteSheet = spriteSheet;
-		this.flapSpeed = flapSpeed;
-		this.physicsEngine = physicsEngine;
-		this.drawEngine = drawEngine;
-		this.game = game;
+export default class Bird{
+	constructor(configBird, field, drawing){
+		this.configBird = configBird;
+		this.drawing = drawing;
+		this.fieldWidth = field.width;
+		this.sourceY;
+		this.index = 0
 	}
 
 	draw(){
-		this.drawEngine.drawImage(this.spriteSheet, this.frames(this.frameIdx), this.x, this.y, this.width, this.height);
+		this.drawing.drawImage({
+			sourceX: this.configBird.frame.x,
+			sourceY: this.sourceY,
+			sourceWidth: this.configBird.w,
+			sourceHeight: this.configBird.h,
+			positionX: this.fieldWidth / 2 - this.configBird.w / 2,
+			positionY: this.configBird.y,
+			positionWidth: this.configBird.w,
+			positionHeight: this.configBird.h,
+		})
 	}
 
 	update(){
-		this.physicsEngine.update(this)
-		if(this.y < 0){
-			this.y = 0
-		}
-		if(this.y + this.height >= this.game.height){
-			this.game.gameOver()
-		}
-		this.frames = (this.frameIdx + 1) % this.frames.lenght
+		this.sourceY = Math.floor((this.index % 9) / 3) * this.configBird.h + this.configBird.frame.y,
+		this.index += 0.3;
 	}
 
-	flap(){
-		this.speed = -this.flapSpeed
+	rules(){
+
 	}
 }

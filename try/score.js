@@ -4,12 +4,11 @@ export default class Score {
 	_bestScore;
 	_localBestScore = localStorage.getItem('bestScore');
 
-	constructor(configScore){
-		this.configScore = configScore;
-		this.currentScore = document.getElementById(this.configScore.idScore);
-		this.bestResult = document.getElementById(this.configScore.idBestResult);
+	constructor(currentScore, bestResult){
+		this.currentScore = currentScore;
+		this.bestResult = bestResult;
 
-		this.#create();
+		this.#create()
 		this.drawScore();
 		this.#checkLocalStorage()
 	}

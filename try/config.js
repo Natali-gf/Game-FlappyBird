@@ -1,65 +1,66 @@
-export default class Config {
-	speedGame = 1;
+class Config {
 	canvas = {
-		idContainer: 'canvasContainer',
+		id: 'canvas',
 		className: 'canvas__field',
-	};
-	field = {
 		width: 360,
-		height: 550,
+		height: 650,
 	};
-	score = {
-		idScore: 'score',
-		idBestResult: 'bestResult',
-	}
-
 	spritesheet = {
 		width: 606,
 		height: 428,
 		src: 'images/sprite.png'
 	}
-
 	backgroundImage = {
-		ground: {
-			x: 280,
+		ground: [{
+			x: 276,
 			y: 0,
-			w: 210,
+			w: 225,
 			h: 110,
-		},
-		fon: {
-			x: 0,
+		}],
+		fon: [{
+			x: 276,
 			y: 0,
-			w: 275,
-			h: 228,
-		}
+			w: 225,
+			h: 110,
+		}]
 	}
+
+	gravity = 10
 
 	bird = {
-		x: 100,
-		y: 200,
-		w: 34,
-		h: 26,
-		frame: {
-			x: 276,
-			y: 112,
-		},
+		x: 50,
+		y: 300,
+		w:34,
+		h:26,
 
-		// gravity: 10,
-		// flapSpeed: 10,
-	}
+		flapSpeed: 10,
 
-	pipes = {
-		w: 53,
-		h: 400,
-		pipeTop: {
-			x: 554,
-			y: 0,
+		frames: [
+		{
+			x:276,
+			y:112,
+			w:34,
+			h:26,
 		},
-		pipeBottom: {
-			x: 501,
-			y: 0,
+		{
+			x:276,
+			y:139,
+			w:34,
+			h:26,
 		},
-		speed: 5,
+		{
+			x:276,
+			y:164,
+			w:34,
+			h:26,
+		},
+		{
+			x:276,
+			y:139,
+			w:34,
+			h:26,
+		}
+	]
 	}
 }
 

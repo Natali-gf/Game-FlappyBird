@@ -1,57 +1,37 @@
+import Background from "./background.js";
+import Bird from "./bird.js";
+import CanvasDrawing from "./canvasDrawing.js";
 import GameCycle from "./gameCycle.js";
-import Loader from './resources.js';
-import Config from "./config.js";
-import { RESOURCE_TYPE } from "./resources.js";
+import Score from "./score.js";
+import Pipes from "./pipes.js";
 
 export default class Game {
-	constructor(){
-		this.config = new Config()
-		// document.createElement("canvas");
-		// context = canvas.getContext('2d');
-		this.canvas = document.getElementById(config.canvas.id)
-		this.canvas.width = this.config.canvas.width
-		this.canvas.height = this.config.canvas.height
-
-		this.width = this.config.canvas.width
-		this.height = this.config.canvas.height
-
-		this. drawEngine =
-		this.physicsEngine =
-		this.spriteSheet =
-
-		this.bird = new Bird({
-			x: this.config.bird.x,
-			y: this.config.bird.y,
-			width: this.config.bird.width,
-			height: this.config.bird.height,
-			frames: this.config.bird.frames,
-			spriteSheet,
-			flapSpeed: this.config.bird.flapSpeed,
-			physicsEngine: this.physicsEngine,
-			drawEngine: this.drawEngine,
-			game: this,
-		})
-		// this.config = new Config()
-		// this.loader = new Loader()
-		// this.spritesheet = this.config.spritesheet;
-		// // this.buttonRestart = buttonRestart;
-		// // this.startField = startField
-		// this.canvas = canvas;
-		// // this.speedConstant = speedConstant;
-
-		// // this.snake = new Snake();
-		// // this.apple = new Apple(this.snake.tail);
-		// // this.score = new Score(currentScore, bestResult);
+	constructor(config, canvas){
+		this.config = config;
+		this.drawing = new CanvasDrawing(canvas)
+		this.background = new Background(this.config.backgroundImage, config.field, this.drawing, config.speedGame);
+		this.bird = new Bird(this.config.bird, config.field, this.drawing);
+		this.pipes = new Pipes(this.config.pipes, this.config.bird, this.config.backgroundImage.ground, config.field, this.drawing);
+		this.score = new Score(this.config.score);
 		// this.gameCycle = new GameCycle(this.update.bind(this), this.draw.bind(this));
+		// this.gameCycle.start()
 
-		// this.subscribeToStart()
+		this.width = this.config.field.width
+		this.height = this.config.field.height
 	}
 
 	update(){
+		this.background.update()
+		this.bird.update()
+		this.pipes.update()
+		// this.bird.rules(this.vibes, this.score, this.field, this.resetGame.bind(this))
 	}
 
 	draw() {
-
+		// this.drawing.clear()
+		this.background.draw()
+		this.bird.draw()
+		this.pipes.draw()
 	}
 
 	async prepare(){
@@ -59,60 +39,30 @@ export default class Game {
 		// console.log(this.config.spritesheet.src);
 		// console.log(RESOURCE_TYPE.IMAGE);
 		// this.RESOURCE_TYPE = RESOURCE_TYPE
-		this.spriteSheet = this.resourceLoader.load({
-			type: this.RESOURSE_TYPE.IMAGE,
-			src: this.config.spritesheet.src,
-			width: this.config.spritesheet.width,
-			height: this.config.spritesheet.height,}
-		)
+		// this.spriteSheet = this.resourceLoader.load({
+		// 	type: RESOURCE_TYPE.IMAGE,
+		// 	src: this.config.spritesheet.src,
+		// 	width: this.config.spritesheet.width,
+		// 	height: this.config.spritesheet.height,}
+		// )
+	}
+
+	cycle(){
+		this.drawing.clear()
+		this.update()
+		this.draw()
+		requestAnimationFrame(this.cycle.bind(this))
 	}
 
 	startGame(){
-		console.log(111);
+		// this.resetGame()
+		this.cycle()
 	}
 
 	resetGame(){
-		// if (this.score._score > this.score._bestScore ||
-		// 	!this.score._bestScore) {
-		// 	this.score.changeBestScore()
-		// }
-		// this.buttonRestart.style.display = 'flex';
-		// this.gameCycle.stop()
-		// this.restart()
 	}
 
-	restart(){
-		// this.buttonRestart.addEventListener("click", () => {
-		// this.checkSpeedUser()
-		// this.buttonRestart.style.display = 'none';
-		// this.startField.style.display = 'flex';
-		// this.snake.startValues(this.checkSpeedUser())
-		// this.apple.newApple()
-		// this.draw()
-		// this.score.resetScore()
-		// this.gameCycle.initialSpeed()
-		// })
-	}
-
-	subscribeToStart(){
-		// document.addEventListener("click", (e) => {
-		// 	if (e.target === this.startField) {
-		// 		this.gameCycle.start()
-		// 		this.startField.style.display = 'none'
-		// 	}
-		// })
-		// document.addEventListener("keydown", () => {
-		// 	if(!this.startField.style.display ||
-		// 		this.startField.style.display === 'flex'){
-		// 		this.gameCycle.start()
-		// 		this.startField.style.display = 'none'
-		// 	}
-		// })
-	}
-
-	checkSpeedUser(){
-		// if (this.speedConstant.checked === false){
-		// 	return this.gameCycle.accelerateCycle
-		// }
+	gameOver(){
+		console.log('gameOver');
 	}
 }

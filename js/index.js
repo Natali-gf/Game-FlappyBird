@@ -1,18 +1,9 @@
-// import Config from "./config.js";
-// import Game from "./game.js";
-// import Canvas from "./canvas.js";
+import Config from "./config.js";
+import Game from "./game.js";
+import Canvas from "./canvas.js";
 
+const config = new Config()
+const canvas = new Canvas(config.canvas, config.field);
 
-
-const spriteSheet =
-const physicsEngine =
-
-
-// const canvas = new Canvas();
-// const gameFlappyBird = new Game(canvas)
-// console.log(gameFlappyBird.loadGame);
-// gameFlappyBird.loadGame().then(() => {
-// 	gameFlappyBird.startGame()
-// })
-
-// restartWithSettings.addEventListener("click", () => gameSnake.resetGame())
+const gameFlappyBird = new Game(config, canvas)
+gameFlappyBird.startGame()
