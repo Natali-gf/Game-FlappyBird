@@ -1,7 +1,7 @@
 export default class Loader {
 
 	// async load()
-	load = {
+	_load = {
 		spritesheet: ({src, width, height}) => {
 			return new Promise((resolve, reject) => {
 				const image = new Image(width, height)
@@ -15,5 +15,9 @@ export default class Loader {
 	async loadSpriteSheet(config) {
 		const loadImage = this.load.spritesheet
 		return await loadImage(config)
+	}
+
+	get load(){
+		return this._load
 	}
 }

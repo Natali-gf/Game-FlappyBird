@@ -1,12 +1,12 @@
 export default class BaseEntity{
 
 	constructor({config, spriteSheet, drawing, field}){
-		this.field = field;
-		this.config = config;
-		this.spriteSheet = spriteSheet;
-		this.drawing = drawing;
+		this._field = field;
+		this._config = config;
+		this._spriteSheet = spriteSheet;
+		this._drawing = drawing;
 
-		this.entity = {
+		this._entity = {
 			spriteSheet: spriteSheet,
 			sourceX: config.x,
 			sourceY: config.y,
@@ -20,10 +20,26 @@ export default class BaseEntity{
 		}
 	}
 
-	draw(entity){
-		this.drawing.drawImage(this.entity)
+	draw(){
+		this._drawing.drawImage(this.entity)
 	}
 
 	update(){
+	}
+
+	get field(){
+		return this._field
+	}
+	get config(){
+		return this._config
+	}
+	get spriteSheet(){
+		return this._spriteSheet
+	}
+	get drawing(){
+		return this._drawing
+	}
+	get entity(){
+		return this._entity
 	}
 }

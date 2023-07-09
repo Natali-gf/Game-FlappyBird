@@ -1,162 +1,195 @@
-import Background from "./background.js";
-import Bird from "./bird.js";
-import CanvasDrawing from "./canvasDrawing.js";
+import Background from "./entities/background.js";
+import Bird from "./entities/bird/bird.js";
+import CanvasDrawing from "./drawing/canvasDrawing.js";
 import GameCycle from "./gameCycle.js";
-import Score from "./score.js";
-import Pipes from "./pipes.js";
+import Score from "./entities/score.js";
+import Pipes from "./entities/pipes.js";
 import Loader from "./loader.js";
-import BirdFalling from "./birdFalling.js";
-import { GetReadyImage, GameOverImage, StartButton } from "./additionalGameImages.js";
+import { GetReadyImage, GameOverImage, StartButton } from "./entities/additionalGameImages.js";
 import { checkCollision } from "./helpers.js";
 
 export default class Game {
 	constructor(config, canvas){
-		this.config = config;
-		this.canvas = canvas;
-		this.drawing = new CanvasDrawing(canvas);
-		this.loader = new Loader()
+		this._config = config;
+		this._canvas = canvas;
+		this._drawing = new CanvasDrawing(canvas);
+		this._loader = new Loader();
 
 		// this.gameCycle = new GameCycle(this.update.bind(this), this.draw.bind(this));
 		// this.gameCycle.start()
-		this.canvasDom = document.getElementById(config.canvas.idCanvas);
-		this.startMove;
-		this.playGame = false;
-		this.control()
+		this._canvasDom = document.getElementById(config.canvas.idCanvas);
+		this._playGame = false;
+		this.#control();
 	}
 
 	update(){
-		this.background.updateFon()
-		this.background.updateGround()
-		if(this.playGame){
-			this.pipes.update(this.bird.bird)
+		this._background.updateFon();
+		this._background.updateGround();
+		if(this._playGame){
+			this._pipes.update(this._bird._bird);
 		}
-		this.bird.update(this.playGame)
+		this._bird.update(this._playGame);
 	}
 
 	draw() {
-		this.background.drawFon()
-		if(this.playGame){
-			this.pipes.draw()
-		}else{
-			this.getReadyImage.draw()
+		this._background.drawFon();
+		if (this._playGame){
+			this._pipes.draw();
+		} else {
+			this._getReadyImage.draw();
 		}
-		this.background.drawGround()
-		this.bird.draw()
-		this.score.drawScore()
-		if(!this.startMove){
-			this.gameOverImage.draw()
-			this.score.drawScoreWindow()
-			this.startButton.draw()
-			this.button = true;
+		this._background.drawGround();
+		this._bird.draw();
+		this._score.drawScore();
+		if(!this._startMove){
+			this._gameOverImage.draw();
+			this._score.drawScoreWindow();
+			this._startButton.draw();
+			this._button = true;
 		}
 	}
 
 	cycle(){
-		if(this.startMove){
-			requestAnimationFrame(this.cycle.bind(this))
+		if(this._startMove){
+			requestAnimationFrame(this.cycle.bind(this));
 			// if ( ++this.step < this.config.maxStep ){
 			// 	return;
 			// }
-			this.step = 0
-			this.drawing.clear()
-			this.update()
-			this.draw()
+			// this.step = 0
+			this._drawing.clear();
+			this.update();
+			this.draw();
 		}
 	}
 
 	startGame(){
-		this.startMove = true;
-		this.resetGame()
-		this.cycle()
+		this._startMove = true;
+		this.resetGame();
+		this.cycle();
 	}
 
 	resetGame(){
-		this.playGame = false;
-		this.background = new Background({
-			config: this.config.backgroundImage,
-			field: this.config.field,
-			drawing: this.drawing,
-			spriteSheet: this.spriteSheet,
-			speed: this.config.speedGame,
+		this._playGame = false;
+		this._background = new Background({
+			config: this._config.backgroundImage,
+			field: this._config.field,
+			drawing: this._drawing,
+			spriteSheet: this._spriteSheet,
+			speed: this._config.speedGame,
 		});
-		this.score = new Score({
-			config: this.config.score,
-			drawing: this.drawing,
-			field: this.config.field,
-			spriteSheet: this.spriteSheet
+		this._score = new Score({
+			config: this._config.score,
+			drawing: this._drawing,
+			field: this._config.field,
+			spriteSheet: this._spriteSheet,
 		});
-		this.pipes = new Pipes({
-			config: this.config.pipes,
-			configBird: this.config.bird,
-			groundHeight: this.config.backgroundImage.ground.h,
-			field: this.config.field,
-			drawing: this.drawing,
-			spriteSheet: this.spriteSheet,
-			score: this.score,
+		this._pipes = new Pipes({
+			config: this._config.pipes,
+			configBird: this._config.bird,
+			groundHeight: this._config.backgroundImage.ground.h,
+			field: this._config.field,
+			drawing: this._drawing,
+			spriteSheet: this._spriteSheet,
+			score: this._score,
 			gameOver: this.gameOver.bind(this),
 		});
-		this.bird = new Bird({
-			config: this.config.bird,
-			field: this.config.field,
-			drawing: this.drawing,
-			spriteSheet: this.spriteSheet,
-			pipesInterval: this.pipes.pipesInterval,
-			canvas: this.canvas,
-			groundHeight: this.config.backgroundImage.ground.h,
+		this._bird = new Bird({
+			config: this._config.bird,
+			field: this._config.field,
+			drawing: this._drawing,
+			spriteSheet: this._spriteSheet,
+			pipesInterval: this._pipes._pipesInterval,
+			canvas: this._canvas,
+			groundHeight: this._config.backgroundImage.ground.h,
 			gameOver: this.gameOver.bind(this),
-			startMove: this.startMove
 		});
-		this.getReadyImage = new GetReadyImage({
-			config: this.config.getReadyImage,
-			field: this.config.field,
-			drawing: this.drawing,
-			spriteSheet: this.spriteSheet,
-		})
-		this.gameOverImage = new GameOverImage({
-			config: this.config.gameOverImage,
-			field: this.config.field,
-			drawing: this.drawing,
-			spriteSheet: this.spriteSheet,
-		})
-		this.startButton = new StartButton({
-			config: this.config.startButton,
-			field: this.config.field,
-			drawing: this.drawing,
-			spriteSheet: this.spriteSheet,
-		})
-		// this.birdFalling = new BirdFalling(this.bird)
+		this._getReadyImage = new GetReadyImage({
+			config: this._config.getReadyImage,
+			field: this._config.field,
+			drawing: this._drawing,
+			spriteSheet: this._spriteSheet,
+		});
+		this._gameOverImage = new GameOverImage({
+			config: this._config.gameOverImage,
+			field: this._config.field,
+			drawing: this._drawing,
+			spriteSheet: this._spriteSheet,
+		});
+		this._startButton = new StartButton({
+			config: this._config.startButton,
+			field: this._config.field,
+			drawing: this._drawing,
+			spriteSheet: this._spriteSheet,
+		});
 	}
 
 	gameOver(){
-		this.startMove = false;
+		this._startMove = false;
 	}
 
-	control(){
+	#control(){
 		document.addEventListener("keydown", (e) => {
 			if (e.code === 'Space') {
-				this.bird.flappyUp()
-				this.playGame = true
+				this._bird.flappyUp()
+				this._playGame = true
 			}
 		})
 		document.addEventListener("mousedown", (e) => {
-			if (e.target === this.canvasDom && !this.button) {
-				this.bird.flappyUp()
-				this.playGame = true
+			if (e.target === this._canvasDom && !this._button) {
+				this._bird.flappyUp()
+				this._playGame = true
 			}
 		})
 		document.addEventListener("mousedown", (e) => {
-			if (!this.startMove && checkCollision(e.offsetX, e.offsetY, this.startButton.startButton)){
+			if (!this._startMove && checkCollision(e.offsetX, e.offsetY, this._startButton.startButton)){
 				this.startGame()
-				setTimeout(this.button = false, 100)
+				setTimeout(this._button = false, 100)
 			}
 		})
 	}
 
 	async loading() {
-		this.spriteSheet = await this.loader.loadSpriteSheet({
-			src: this.config.spritesheet.src,
-			width: this.config.spritesheet.width,
-			height: this.config.spritesheet.height,
+		this._spriteSheet = await this._loader.loadSpriteSheet({
+			src: this._config.spritesheet.src,
+			width: this._config.spritesheet.width,
+			height: this._config.spritesheet.height,
 		})
+	}
+
+	get config(){
+		return this._config
+	}
+	get canvas(){
+		return this._canvas
+	}
+	get drawing(){
+		return this._drawing
+	}
+	get loader(){
+		return this._loader
+	}
+	get startMove(){
+		return this._startMove
+	}
+	get playGame(){
+		return this._playGame
+	}
+	get button(){
+		return this._button
+	}
+	get bird(){
+		return this._bird
+	}
+	get pipes(){
+		return this._pipes
+	}
+	get score(){
+		return this._score
+	}
+	get background(){
+		return this._background
+	}
+	get spriteSheet(){
+		return this._spriteSheet
 	}
 }

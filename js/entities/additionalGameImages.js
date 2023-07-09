@@ -1,4 +1,4 @@
-import BaseEntity from "./BaseEntity.js";
+import BaseEntity from "./baseEntity.js";
 
 export class GetReadyImage extends BaseEntity{
 	constructor(props){
@@ -7,8 +7,11 @@ export class GetReadyImage extends BaseEntity{
 			drawing: props.drawing,
 			field: props.field })
 
-		this.getReadyImage = this.entity;
-		this.getReadyImage.positionY = props.field.height / 2.5;
+		this._getReadyImage = this.entity;
+		this._getReadyImage.positionY = props.field.height / 2.5;
+	}
+	get getReadyImage(){
+		return this._getReadyImage
 	}
 }
 
@@ -19,8 +22,11 @@ export class GameOverImage extends BaseEntity{
 			drawing: props.drawing,
 			field: props.field })
 
-		this.gameOverImage = this.entity
-		this.gameOverImage.positionY = props.field.height / 4;
+		this._gameOverImage = this.entity
+		this._gameOverImage.positionY = props.field.height / 4;
+	}
+	get gameOverImage(){
+		return this._gameOverImage
 	}
 }
 
@@ -31,7 +37,10 @@ export class StartButton extends BaseEntity{
 			drawing: props.drawing,
 			field: props.field })
 
-		this.startButton = this.entity;
-		this.startButton.positionY = props.field.height / 1.8;
+		this._startButton = this.entity;
+		this._startButton.positionY = props.field.height / 1.8;
+	}
+	get startButton(){
+		return this._startButton
 	}
 }

@@ -9,10 +9,24 @@ export default class CanvasDrawing extends Drawing{
 
 	drawImage({spriteSheet, sourceX, sourceY, sourceWidth, sourceHeight,
 				positionX, positionY, positionWidth, positionHeight, degree}){
-		super.drawImage()
-		// console.log(degree);
-			// this.canvas.context.rotate((degree || this.degree) * Math.PI / 180)
+		super.drawImage();
+			if(degree > 0){
+				this.rotateImage({spriteSheet, sourceX, sourceY, sourceWidth, sourceHeight,
+					positionX, positionY, positionWidth, positionHeight, degree})
+				return
+			}
 			this.canvas.context.drawImage(spriteSheet, sourceX, sourceY, sourceWidth, sourceHeight, positionX, positionY, positionWidth, positionHeight)
+	}
+
+	rotateImage({spriteSheet, sourceX, sourceY, sourceWidth, sourceHeight,
+		positionX, positionY, positionWidth, positionHeight, degree}){
+		this.canvas.context.save();
+
+		this.canvas.context.translate(positionX + positionWidth / 2, positionY + positionHeight / 2);
+		this.canvas.context.rotate((degree || this.degree) * Math.PI/180);
+		this.canvas.context.drawImage(spriteSheet, sourceX, sourceY, sourceWidth, sourceHeight, -positionWidth/2, -positionHeight/2, positionWidth, positionHeight)
+
+		this.canvas.context.restore();
 	}
 
 	drawText(text, x, y){
@@ -33,6 +47,6 @@ export default class CanvasDrawing extends Drawing{
 
 	clear(){
 		super.clear()
-		this.canvas.context.clearRect(0, 0, this.canvas.field.width, this.canvas.field.height)
+		this.canvas.context.clearRect(0, 0, this.canvas.canvas.width, this.canvas.canvas.height)
 	}
 }
