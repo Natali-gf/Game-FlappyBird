@@ -1,9 +1,13 @@
-export default class Background{
-	constructor(configBackground, field, drawing, speed){
-		this.configBackground = configBackground;
-		this.drawing = drawing;
-		this.field = field;
-		this.speed = speed;
+import BaseEntity from "./BaseEntity.js";
+
+export default class Background extends BaseEntity{
+	constructor(props){
+		super({config: props.config,
+			spriteSheet: props.spriteSheet,
+			drawing: props.drawing,
+			field: props.field })
+
+		this.speed = props.speed;
 		this.step = 1
 		this.backgroundFon = []
 		this.backgroundGround = []
@@ -11,84 +15,88 @@ export default class Background{
 	}
 
 	create(){
-		for(let i = 0; i < this.field.width;){
+		for(let i = 0; i < this.field.width; i += this.config.fon.w){
 			this.backgroundFon.push({
-				sourceX: this.configBackground.fon.x,
-				sourceY: this.configBackground.fon.y,
-				sourceWidth: this.configBackground.fon.w,
-				sourceHeight: this.configBackground.fon.h,
+				spriteSheet: this.spriteSheet,
+				sourceX: this.config.fon.x,
+				sourceY: this.config.fon.y,
+				sourceWidth: this.config.fon.w,
+				sourceHeight: this.config.fon.h,
 				positionX: i,
-				positionY: this.field.height - this.configBackground.fon.h - this.configBackground.ground.h,
-				positionWidth: this.configBackground.fon.w + 1,
-				positionHeight: this.configBackground.fon.h,
-			})
-			i += this.configBackground.fon.w;
+				positionY: this.field.height - this.config.fon.h - this.config.ground.h,
+				positionWidth: this.config.fon.w + 1,
+				positionHeight: this.config.fon.h,
+			});
 		}
-		for(let i = 0; i < this.field.width;){
+		for(let i = 0; i < this.field.width; i += this.config.ground.w){
 			this.backgroundGround.push({
-				sourceX: this.configBackground.ground.x,
-				sourceY: this.configBackground.ground.y,
-				sourceWidth: this.configBackground.ground.w,
-				sourceHeight: this.configBackground.ground.h,
+				spriteSheet: this.spriteSheet,
+				sourceX: this.config.ground.x,
+				sourceY: this.config.ground.y,
+				sourceWidth: this.config.ground.w,
+				sourceHeight: this.config.ground.h,
 				positionX: i,
-				positionY: this.field.height - this.configBackground.ground.h,
-				positionWidth: this.configBackground.ground.w,
-				positionHeight: this.configBackground.ground.h,
-			})
-			i += this.configBackground.ground.w;
+				positionY: this.field.height - this.config.ground.h,
+				positionWidth: this.config.ground.w,
+				positionHeight: this.config.ground.h,
+			});
 		}
 	}
 
-	draw(){
+	drawFon(){
 		this.backgroundFon.forEach(elem => {
+			// super.draw(elem)
 			this.drawing.drawImage(elem)
 		})
+	}
+	drawGround(){
 		this.backgroundGround.forEach(elem => {
+			// super.draw(elem)
 			this.drawing.drawImage(elem)
 		})
 	}
 
-	update(){
+	updateFon(){
 		this.backgroundFon.forEach(elem => {
 			elem.positionX = elem.positionX - this.step;
-			if(elem.positionX < -this.configBackground.fon.w){
+			if(elem.positionX < -this.config.fon.w){
 				this.backgroundFon.shift();
 			}
-			if((elem.positionX + this.configBackground.fon.w) === this.field.width){
+			if((elem.positionX + this.config.fon.w) === this.field.width){
 				this.backgroundFon.push({
-					sourceX: this.configBackground.fon.x,
-					sourceY: this.configBackground.fon.y,
-					sourceWidth: this.configBackground.fon.w,
-					sourceHeight: this.configBackground.fon.h,
+					spriteSheet: this.spriteSheet,
+					sourceX: this.config.fon.x,
+					sourceY: this.config.fon.y,
+					sourceWidth: this.config.fon.w,
+					sourceHeight: this.config.fon.h,
 					positionX: this.field.width,
-					positionY: this.field.height - this.configBackground.fon.h - this.configBackground.ground.h,
-					positionWidth: this.configBackground.fon.w + 1,
-					positionHeight: this.configBackground.fon.h,
-				})
-			}
-		})
-
-		this.backgroundGround.forEach(elem => {
-			elem.positionX = elem.positionX - this.step;
-			if(elem.positionX < -this.configBackground.ground.w){
-				this.backgroundGround.shift();
-			}
-			if((elem.positionX + this.configBackground.ground.w) === this.field.width){
-				this.backgroundGround.push({
-					sourceX: this.configBackground.ground.x,
-					sourceY: this.configBackground.ground.y,
-					sourceWidth: this.configBackground.ground.w,
-					sourceHeight: this.configBackground.ground.h,
-					positionX: this.field.width,
-					positionY: this.field.height - this.configBackground.ground.h,
-					positionWidth: this.configBackground.ground.w,
-					positionHeight: this.configBackground.ground.h,
+					positionY: this.field.height - this.config.fon.h - this.config.ground.h,
+					positionWidth: this.config.fon.w + 1,
+					positionHeight: this.config.fon.h,
 				})
 			}
 		})
 	}
 
-	rules(){
-
+	updateGround(){
+		this.backgroundGround.forEach(elem => {
+			elem.positionX = elem.positionX - this.step;
+			if(elem.positionX < -this.config.ground.w){
+				this.backgroundGround.shift();
+			}
+			if((elem.positionX + this.config.ground.w) === this.field.width){
+				this.backgroundGround.push({
+					spriteSheet: this.spriteSheet,
+					sourceX: this.config.ground.x,
+					sourceY: this.config.ground.y,
+					sourceWidth: this.config.ground.w,
+					sourceHeight: this.config.ground.h,
+					positionX: this.field.width,
+					positionY: this.field.height - this.config.ground.h,
+					positionWidth: this.config.ground.w,
+					positionHeight: this.config.ground.h,
+				})
+			}
+		})
 	}
 }

@@ -6,4 +6,5 @@ const config = new Config()
 const canvas = new Canvas(config.canvas, config.field);
 
 const gameFlappyBird = new Game(config, canvas)
-gameFlappyBird.startGame()
+gameFlappyBird.loading().then(() => { gameFlappyBird.startGame() })
+// console.log(gameFlappyBird.loading());

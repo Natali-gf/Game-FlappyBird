@@ -1,3 +1,7 @@
+@font-face {
+  font-family: "FlappyBird";
+  src: url(../font/FlappyBirdRegular.ttf);
+}
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
@@ -55,15 +59,19 @@ table {
   border-spacing: 0;
 }
 
-.game {
+body {
   background: #4d4c48;
+}
+
+.game {
   width: 100%;
   height: 100%;
 }
 .game__container {
   width: -moz-fit-content;
   width: fit-content;
-  padding: 20px;
+  padding: 13px 10px;
+  margin: 0 auto;
 }
 .game__scores {
   flex-direction: row-reverse;
@@ -74,6 +82,7 @@ table {
   justify-content: space-between;
 }
 .score__container {
+  font-family: "FlappyBird";
   background: #1f1f1c;
   width: 200px;
   display: flex;
@@ -84,9 +93,11 @@ table {
   box-shadow: 2px 2px 30px 5px #1d1d1c;
 }
 .score__title {
+  font-family: "FlappyBird";
   color: #d3cf94;
 }
 .score__current, .score__best {
+  font-family: "FlappyBird";
   color: #f1e74f;
   font-size: 30px;
 }
@@ -131,72 +142,7 @@ table {
 }
 .canvas__field {
   border: 5px solid #1f1f1c;
-  box-shadow: 5px 5px 40px 20px #1f1f1c;
+  box-shadow: 5px 5px 30px 10px #1f1f1c;
   background-size: 50px 50px;
   background-color: #39accf;
-}
-
-.settings__container {
-  display: flex;
-  justify-content: space-between;
-  padding: 5px;
-}
-.settings__speed {
-  padding: 10px;
-}
-
-.speed {
-  display: flex;
-  flex-direction: column;
-  width: -moz-fit-content;
-  width: fit-content;
-}
-.speed:hover {
-  border: 1px solid #1f1f1c;
-  background: #d3cf94;
-  border-radius: 8px;
-  box-shadow: 2px 2px 10px 0.3px #1f1f1c;
-}
-.speed::before {
-  content: "";
-  background: url(../images/speed.svg);
-  background-repeat: no-repeat;
-  background-size: 30px 30px;
-  display: block;
-  width: 30px;
-  height: 30px;
-}
-.speed__title {
-  margin-top: 5px;
-}
-.speed__choice {
-  display: none;
-  flex-direction: column;
-  align-items: flex-end;
-}
-.speed__list {
-  display: flex;
-  flex-direction: column;
-  font-size: 18px;
-  margin-top: 10px;
-}
-.speed__item {
-  padding: 5px 0;
-}
-.speed__button {
-  max-width: 120px;
-  height: -moz-fit-content;
-  height: fit-content;
-  color: #d3cf94;
-  background: #1f1f1c;
-  border: 1px solid #d3cf94;
-  border-radius: 5px;
-  box-shadow: 2px 2px 10px 0.3px #1f1f1c;
-  margin-top: 10px;
-  padding: 1.1px;
-  cursor: pointer;
-}
-
-.flex {
-  display: flex;
 }

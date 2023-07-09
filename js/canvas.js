@@ -10,6 +10,7 @@ export default class Canvas {
 		this.field = field;
 		this.canvas.width = this.field.width;
 		this.canvas.height = this.field.height;
+		this.canvas.id = 'canvas'
 		this.create()
 	}
 

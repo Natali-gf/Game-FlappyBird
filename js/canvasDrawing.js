@@ -4,21 +4,32 @@ export default class CanvasDrawing extends Drawing{
 	constructor(canvas){
 		super()
 		this.canvas = canvas;
-		console.log(this.canvas.field.width);
+		this.degree = 0
 	}
 
-	drawImage({sourceX, sourceY, sourceWidth, sourceHeight, positionX, positionY, positionWidth, positionHeight}){
+	drawImage({spriteSheet, sourceX, sourceY, sourceWidth, sourceHeight,
+				positionX, positionY, positionWidth, positionHeight, degree}){
 		super.drawImage()
-		const image = new Image();
-		image.src = 'images/sprite.png';
-
-		// const render = () => {
-			this.canvas.context.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, positionX, positionY, positionWidth, positionHeight)
-		// }
-
-		// image.onload = render;
-		// console.log(image.onload);
+		// console.log(degree);
+			// this.canvas.context.rotate((degree || this.degree) * Math.PI / 180)
+			this.canvas.context.drawImage(spriteSheet, sourceX, sourceY, sourceWidth, sourceHeight, positionX, positionY, positionWidth, positionHeight)
 	}
+
+	drawText(text, x, y){
+		this.canvas.context.font = "40px FlappyBird";
+		this.canvas.context.fillStyle = "white";
+		this.canvas.context.lineWidth = 1.5;
+		this.canvas.context.fillText(text, x, y);
+		this.canvas.context.strokeText(text, x, y);
+	}
+
+	getTextWidth(text){
+		return this.canvas.context.measureText(text).width;
+	}
+	// rotate(degree){
+	// 	this.canvas.context.rotate(degree * Math.PI / 180)
+	// 	// this.drawImage()
+	// }
 
 	clear(){
 		super.clear()
