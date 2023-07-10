@@ -4,8 +4,8 @@ export default class Config {
 		this.clientWidth = document.documentElement.clientWidth;
 		this.clientWidth < 360 ? this.clientWidth = 360 : null
 		this._field = {
-			width: this.clientWidth - 40,
-			height: 590 - 40,
+			width: this.clientWidth - 30,
+			height: 650 - 20,
 		};
 	}
 
@@ -25,15 +25,15 @@ export default class Config {
 	_spritesheet = {
 		width: 606,
 		height: 428,
-		src: 'accets/images/sprite.png'
+		src: 'assets/images/sprite.png'
 	}
 
 	_audio = {
-		srcScoreUp: 'accets/audio/bell.wav',
-		srcCrash: 'accets/audio/crash.wav',
-		srcJump: 'accets/audio/jump.wav',
-		srcKick: 'accets/audio/kick.wav',
-		srcSqueak: 'accets/audio/squeak.wav',
+		srcScoreUp: 'assets/audio/bell.wav',
+		srcCrash: 'assets/audio/crash.wav',
+		srcJump: 'assets/audio/jump.wav',
+		srcKick: 'assets/audio/kick.wav',
+		srcSqueak: 'assets/audio/squeak.wav',
 	}
 
 	_backgroundImage = {

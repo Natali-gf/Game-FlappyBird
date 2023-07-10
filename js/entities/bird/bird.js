@@ -12,6 +12,7 @@ export default class Bird extends BaseEntity{
 
 		this._birdFalling = new BirdFalling;
 		this._bird.sourceX = this._config.frame.x;
+		this._bird.positionHeight = props.pipesInterval * 20 / 100;
 		this._pipesInterval = props.pipesInterval;
 		this._ground = props.field.height - props.groundHeight - props.config.h;
 		this._gameOver = props.gameOver;

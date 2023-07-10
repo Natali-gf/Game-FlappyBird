@@ -11,7 +11,7 @@ export default class Background extends BaseEntity{
 			field: props.field })
 
 		this._speed = props.speed;
-		this.#create()
+		this.#create();
 	}
 
 	#create(){

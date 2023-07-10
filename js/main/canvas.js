@@ -1,5 +1,3 @@
-import Config from "./config.js";
-
 export default class Canvas {
 	_canvas = document.createElement("canvas");
 	_context = this._canvas.getContext('2d');

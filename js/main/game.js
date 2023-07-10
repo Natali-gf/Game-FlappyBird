@@ -1,12 +1,11 @@
-import Background from "./entities/background.js";
-import Bird from "./entities/bird/bird.js";
-import CanvasDrawing from "./drawing/canvasDrawing.js";
-import GameCycle from "./gameCycle.js";
-import Score from "./entities/score.js";
-import Pipes from "./entities/pipes.js";
-import Loader from "./loader.js";
-import { GetReadyImage, GameOverImage, StartButton } from "./entities/additionalGameImages.js";
-import { checkCollision } from "./helpers.js";
+import Background from "../entities/background.js";
+import Bird from "../entities/bird/bird.js";
+import CanvasDrawing from "../drawing/canvasDrawing.js";
+import Score from "../entities/score.js";
+import Pipes from "../entities/pipes.js";
+import Loader from "../additional/loader.js";
+import { GetReadyImage, GameOverImage, StartButton } from "../entities/additionalGameImages.js";
+import { checkCollision } from "../additional/helpers.js";
 
 export default class Game {
 	constructor(config, canvas){
@@ -14,9 +13,6 @@ export default class Game {
 		this._canvas = canvas;
 		this._drawing = new CanvasDrawing(canvas);
 		this._loader = new Loader();
-
-		// this.gameCycle = new GameCycle(this.update.bind(this), this.draw.bind(this));
-		// this.gameCycle.start()
 		this._canvasDom = document.getElementById(config.canvas.idCanvas);
 		this._playGame = false;
 		this.#control();
@@ -30,8 +26,8 @@ export default class Game {
 		}
 		this._bird.update(this._playGame, this.sounds);
 		if(this._score.score === this._levelUpScore){
-			this._levelUpScore += 100
-			this._config.pipes = 1;;
+			this._levelUpScore += 100;
+			this._config.pipes = 1;
 		};
 	}
 
@@ -66,6 +62,10 @@ export default class Game {
 		this._startMove = true;
 		this.resetGame();
 		this.cycle();
+	}
+
+	gameOver(){
+		this._startMove = false;
 	}
 
 	resetGame(){
@@ -126,9 +126,7 @@ export default class Game {
 		});
 	}
 
-	gameOver(){
-		this._startMove = false;
-	}
+
 
 	#control(){
 		document.addEventListener("keydown", (e) => {

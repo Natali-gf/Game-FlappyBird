@@ -3,59 +3,58 @@ import BaseEntity from "./baseEntity.js";
 export default class Score extends BaseEntity{
 	_score = 0;
 	_bestScore;
-	_localBestScore = localStorage.getItem('bestScop');
+	_localBestScore = localStorage.getItem('bestScore');
 	_scoreWindow = this.entity;
+	_bronzeMedal = {
+		spriteSheet: this._spriteSheet,
+		sourceX: this._config.bronzeMedal.x,
+		sourceY: this._config.bronzeMedal.y,
+		sourceWidth: this._config.bronzeMedal.w,
+		sourceHeight: this._config.bronzeMedal.h,
+		positionX: this._scoreWindow.positionX + 25,
+		positionY: this._scoreWindow.positionY + 42,
+		positionWidth: this._config.bronzeMedal.w,
+		positionHeight: this._config.bronzeMedal.h,
+	};
+	_silverMedal = {
+		spriteSheet: this._spriteSheet,
+		sourceX: this._config.silverMedal.x,
+		sourceY: this._config.silverMedal.y,
+		sourceWidth: this._config.silverMedal.w,
+		sourceHeight: this._config.silverMedal.h,
+		positionX: this._scoreWindow.positionX + 25,
+		positionY: this._scoreWindow.positionY + 42,
+		positionWidth: this._config.silverMedal.w,
+		positionHeight: this._config.silverMedal.h,
+	};
+	_goldenMedal = {
+		spriteSheet: this._spriteSheet,
+		sourceX: this._config.goldenMedal.x,
+		sourceY: this._config.goldenMedal.y,
+		sourceWidth: this._config.goldenMedal.w,
+		sourceHeight: this._config.goldenMedal.h,
+		positionX: this._scoreWindow.positionX + 25,
+		positionY: this._scoreWindow.positionY + 42,
+		positionWidth: this._config.goldenMedal.w,
+		positionHeight: this._config.goldenMedal.h,
+	};
+	_platinumMedal = {
+		spriteSheet: this._spriteSheet,
+		sourceX: this._config.platinumMedal.x,
+		sourceY: this._config.platinumMedal.y,
+		sourceWidth: this._config.platinumMedal.w,
+		sourceHeight: this._config.platinumMedal.h,
+		positionX: this._scoreWindow.positionX + 25,
+		positionY: this._scoreWindow.positionY + 42,
+		positionWidth: this._config.platinumMedal.w,
+		positionHeight: this._config.platinumMedal.h,
+	}
 	constructor(props){
 		super({config: props.config,
 			drawing: props.drawing,
 			field: props.field,
 			spriteSheet: props.spriteSheet})
 
-		this._bronzeMedal = {
-			spriteSheet: this._spriteSheet,
-			sourceX: this._config.bronzeMedal.x,
-			sourceY: this._config.bronzeMedal.y,
-			sourceWidth: this._config.bronzeMedal.w,
-			sourceHeight: this._config.bronzeMedal.h,
-			positionX: this._scoreWindow.positionX + 25,
-			positionY: this._scoreWindow.positionY + 42,
-			positionWidth: this._config.bronzeMedal.w,
-			positionHeight: this._config.bronzeMedal.h,
-		}
-		this._silverMedal = {
-			spriteSheet: this._spriteSheet,
-			sourceX: this._config.silverMedal.x,
-			sourceY: this._config.silverMedal.y,
-			sourceWidth: this._config.silverMedal.w,
-			sourceHeight: this._config.silverMedal.h,
-			positionX: this._scoreWindow.positionX + 25,
-			positionY: this._scoreWindow.positionY + 42,
-			positionWidth: this._config.silverMedal.w,
-			positionHeight: this._config.silverMedal.h,
-		}
-		this._goldenMedal = {
-			spriteSheet: this._spriteSheet,
-			sourceX: this._config.goldenMedal.x,
-			sourceY: this._config.goldenMedal.y,
-			sourceWidth: this._config.goldenMedal.w,
-			sourceHeight: this._config.goldenMedal.h,
-			positionX: this._scoreWindow.positionX + 25,
-			positionY: this._scoreWindow.positionY + 42,
-			positionWidth: this._config.goldenMedal.w,
-			positionHeight: this._config.goldenMedal.h,
-		}
-		this._platinumMedal = {
-			spriteSheet: this._spriteSheet,
-			sourceX: this._config.platinumMedal.x,
-			sourceY: this._config.platinumMedal.y,
-			sourceWidth: this._config.platinumMedal.w,
-			sourceHeight: this._config.platinumMedal.h,
-			positionX: this._scoreWindow.positionX + 25,
-			positionY: this._scoreWindow.positionY + 42,
-			positionWidth: this._config.platinumMedal.w,
-			positionHeight: this._config.platinumMedal.h,
-		}
-		this.drawScore();
 		this.#checkLocalStorage()
 	}
 
@@ -66,32 +65,37 @@ export default class Score extends BaseEntity{
 	}
 
 	drawScore(){
-		this._drawing.drawText(this._score, 25, 50)
+		this._drawing.drawText({text:this._score, x:25, y:50})
 	}
 
 	drawScoreWindow(){
 		this._drawing.drawImage(this._scoreWindow)
 
 		this.scoreWidth = this._drawing.getTextWidth(this._score);
-		this._drawing.drawText(this._score, this._scoreWindow.positionX + this._config.w - this.scoreWidth - 22, this._scoreWindow.positionY + 54);
+		this._drawing.drawText({ text: this._score,
+					x: this._scoreWindow.positionX + this._config.w - this.scoreWidth - 22,
+					y: this._scoreWindow.positionY + 54 });
 
 		if(this._bestScore < this._score || !this._bestScore){
-			this.#changeBestScore()
+			this.#changeBestScore();
 		}
 		this.bestScoreWidth = this._drawing.getTextWidth(this._bestScore || '-');
-		this._drawing.drawText(this._bestScore || '-', this._scoreWindow.positionX + this._config.w - this.bestScoreWidth - 22, this._scoreWindow.positionY + 97);
+		this._drawing.drawText({ text: this._bestScore || '-',
+					x: this._scoreWindow.positionX + this._config.w - this.bestScoreWidth - 22,
+					y: this._scoreWindow.positionY + 97 });
+
 		this.#drawMedal();
 	}
 
 	#drawMedal(){
 		if(this._score > 100){
-			this._drawing.drawImage(this._platinumMedal)
+			this._drawing.drawImage(this._platinumMedal);
 		}else if(this._score > 50){
-			this._drawing.drawImage(this._goldenMedal)
+			this._drawing.drawImage(this._goldenMedal);
 		}else if(this._score > 25){
-			this._drawing.drawImage(this._silverMedal)
+			this._drawing.drawImage(this._silverMedal);
 		}else if(this._score > 10){
-			this._drawing.drawImage(this._bronzeMedal)
+			this._drawing.drawImage(this._bronzeMedal);
 		}
 	}
 
@@ -103,7 +107,7 @@ export default class Score extends BaseEntity{
 	#changeBestScore(){
 		if(this._score > 0){
 			this._bestScore = this._score;
-			localStorage.setItem('bestScop', this._score.toString())
+			localStorage.setItem('bestScore', this._score.toString())
 		}
 	}
 

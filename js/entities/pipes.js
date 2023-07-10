@@ -1,4 +1,4 @@
-import { getRandomNumber } from "../helpers.js";
+import { getRandomNumber } from "../additional/helpers.js";
 import BaseEntity from "./baseEntity.js";
 
 export default class Pipes extends BaseEntity{
@@ -10,9 +10,9 @@ export default class Pipes extends BaseEntity{
 			drawing: props.drawing,
 			field: props.field })
 
-		this._pipesInterval = props.configBird.h * 100 / 20;
+		this._pipeHeight = props.field.height - props.groundHeight;
+		this._pipesInterval = this._pipeHeight * 25 / 100;
 		this._pipeWidth = props.configBird.w * 2;
-		this._pipeHeight = this._pipesInterval * 100 / 25;
 		this._pipesDistance = this._pipeWidth * 4;
 		this._groundHeight = props.groundHeight;
 
@@ -29,7 +29,7 @@ export default class Pipes extends BaseEntity{
 	}
 
 	update(bird, speed, sounds){
-		this._pipes.forEach((elem, index, array) => {
+		this._pipes.forEach((elem, index) => {
 			elem.pipeTop.positionX = elem.pipeTop.positionX - (speed);
 			elem.pipeBottom.positionX = elem.pipeBottom.positionX - (speed);
 
@@ -69,8 +69,9 @@ export default class Pipes extends BaseEntity{
 	}
 
 	newPipes(){
-		this.maxPipePosition = this._field.height - this._groundHeight - this._pipesInterval - 10;
+		this.maxPipePosition = this._field.height - this._pipesInterval - this._groundHeight;
 		let pipePositionY = getRandomNumber(this._groundHeight, this.maxPipePosition);
+
 		this._pipes.push({
 			pipeTop: {
 				spriteSheet: this._spriteSheet,

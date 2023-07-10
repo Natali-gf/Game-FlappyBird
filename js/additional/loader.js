@@ -1,6 +1,4 @@
 export default class Loader {
-
-	// async load()
 	_load = {
 		spritesheet: ({src, width, height}) => {
 			return new Promise((resolve, reject) => {
