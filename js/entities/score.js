@@ -3,7 +3,7 @@ import BaseEntity from "./baseEntity.js";
 export default class Score extends BaseEntity{
 	_score = 0;
 	_bestScore;
-	_localBestScore = localStorage.getItem('bestScore');
+	_localBestScore = localStorage.getItem('FlappyBirdBestScore');
 	_scoreWindow = this.entity;
 	_bronzeMedal = {
 		spriteSheet: this._spriteSheet,
@@ -107,7 +107,7 @@ export default class Score extends BaseEntity{
 	#changeBestScore(){
 		if(this._score > 0){
 			this._bestScore = this._score;
-			localStorage.setItem('bestScore', this._score.toString())
+			localStorage.setItem('FlappyBirdBestScore', this._score.toString());
 		}
 	}
 
