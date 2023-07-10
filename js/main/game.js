@@ -37,6 +37,7 @@ export default class Game {
 			this._pipes.draw();
 		} else {
 			this._getReadyImage.draw();
+			this._getReadyImage.additionalInfo();
 		}
 		this._background.drawGround();
 		this._bird.draw();
@@ -126,12 +127,12 @@ export default class Game {
 		});
 	}
 
-
-
 	#control(){
 		document.addEventListener("keydown", (e) => {
-			if (e.code === 'Space') {
+			if (e.code === 'Space' && !this._button  ) {
 				this._bird.flappyUp()
+				this.sounds.jump.currentTime = 0
+				this.sounds.jump.play();
 				this._playGame = true
 			}
 		})

@@ -10,6 +10,16 @@ export class GetReadyImage extends BaseEntity{
 		this._getReadyImage = this.entity;
 		this._getReadyImage.positionY = props.field.height / 2.5;
 	}
+
+	additionalInfo(){
+		this.drawing.drawText({text:'or',
+					x: this.field.width / 2 - 11,
+					y: this.field.height / 1.47})
+		this.drawing.drawText({text:'PRESS SPACE',
+					x: this.field.width / 2 - 75,
+					y: this.field.height / 1.36})
+	}
+
 	get getReadyImage(){
 		return this._getReadyImage
 	}
