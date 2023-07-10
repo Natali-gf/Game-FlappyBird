@@ -88,13 +88,13 @@ export default class Score extends BaseEntity{
 	}
 
 	#drawMedal(){
-		if(this._score > 100){
+		if(this._score >= 100){
 			this._drawing.drawImage(this._platinumMedal);
-		}else if(this._score > 50){
+		}else if(this._score >= 50){
 			this._drawing.drawImage(this._goldenMedal);
-		}else if(this._score > 25){
+		}else if(this._score >= 25){
 			this._drawing.drawImage(this._silverMedal);
-		}else if(this._score > 10){
+		}else if(this._score >= 10){
 			this._drawing.drawImage(this._bronzeMedal);
 		}
 	}
