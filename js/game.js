@@ -26,9 +26,13 @@ export default class Game {
 		this._background.updateFon();
 		this._background.updateGround();
 		if(this._playGame){
-			this._pipes.update(this._bird._bird);
+			this._pipes.update(this._bird._bird, this._config.pipes.speed, this.sounds);
 		}
-		this._bird.update(this._playGame);
+		this._bird.update(this._playGame, this.sounds);
+		if(this._score.score === this._levelUpScore){
+			this._levelUpScore += 100
+			this._config.pipes = 1;;
+		};
 	}
 
 	draw() {
@@ -52,10 +56,6 @@ export default class Game {
 	cycle(){
 		if(this._startMove){
 			requestAnimationFrame(this.cycle.bind(this));
-			// if ( ++this.step < this.config.maxStep ){
-			// 	return;
-			// }
-			// this.step = 0
 			this._drawing.clear();
 			this.update();
 			this.draw();
@@ -69,7 +69,10 @@ export default class Game {
 	}
 
 	resetGame(){
+		this._config.pipes = 'default';
+		this._levelUpScore = 100;
 		this._playGame = false;
+
 		this._background = new Background({
 			config: this._config.backgroundImage,
 			field: this._config.field,
@@ -136,11 +139,11 @@ export default class Game {
 		})
 		document.addEventListener("mousedown", (e) => {
 			if (e.target === this._canvasDom && !this._button) {
-				this._bird.flappyUp()
+				this._bird.flappyUp();
+				this.sounds.jump.currentTime = 0
+				this.sounds.jump.play();
 				this._playGame = true
 			}
-		})
-		document.addEventListener("mousedown", (e) => {
 			if (!this._startMove && checkCollision(e.offsetX, e.offsetY, this._startButton.startButton)){
 				this.startGame()
 				setTimeout(this._button = false, 100)
@@ -154,6 +157,18 @@ export default class Game {
 			width: this._config.spritesheet.width,
 			height: this._config.spritesheet.height,
 		})
+		this.sounds = {
+			scoreUp: await this._loader.loadAudio({
+				src: this._config.audio.srcScoreUp}),
+			crash: await this._loader.loadAudio({
+				src: this._config.audio.srcCrash}),
+			jump: await this._loader.loadAudio({
+				src: this._config.audio.srcJump}),
+			kick: await this._loader.loadAudio({
+				src: this._config.audio.srcKick}),
+			squeak: await this._loader.loadAudio({
+				src: this._config.audio.srcSqueak})
+		}
 	}
 
 	get config(){
@@ -191,5 +206,8 @@ export default class Game {
 	}
 	get spriteSheet(){
 		return this._spriteSheet
+	}
+	get levelUpScore(){
+		return this._levelUpScore
 	}
 }

@@ -17,25 +17,27 @@ export default class Bird extends BaseEntity{
 		this._gameOver = props.gameOver;
 	}
 
-	update(play){
+	update(play, sounds){
 		this._bird.sourceY = Math.floor((this._step % 9) / 3) * this._config.h + this._config.frame.y,
 		this._step += 0.3;
 		if(play){
 			this._bird.positionY = this._birdFalling.falling(this._config, this._bird.positionY)
 		}
-		this.#rules()
-		// console.log(this._bird.positionX +this._bird.positionWidth, this._bird.positionY +this._bird.positionHeight, '******', this._bird.positionWidth, this._bird.positionHeight);
+
 		if(this._bird.degree && this._bird.degree < 450){
 			this._bird.degree += 3
 			this._bird.degree >= 450 ? 450 : null;
 		}
+
+		this.#rules(sounds);
 	}
 
-	#rules(){
+	#rules(sounds){
 		if(this._bird.positionY <= 0){
 			this._bird.positionY = 0
 		}
 		if(this._bird.positionY >= this._ground){
+			sounds.crash.play()
 			this._gameOver();
 		}
 	}

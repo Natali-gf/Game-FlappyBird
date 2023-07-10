@@ -1,6 +1,4 @@
 export default class Config {
-	maxStep = 10;
-
 	_speedGame = 1;
 	constructor(){
 		this.clientWidth = document.documentElement.clientWidth;
@@ -27,7 +25,15 @@ export default class Config {
 	_spritesheet = {
 		width: 606,
 		height: 428,
-		src: 'images/sprite.png'
+		src: 'accets/images/sprite.png'
+	}
+
+	_audio = {
+		srcScoreUp: 'accets/audio/bell.wav',
+		srcCrash: 'accets/audio/crash.wav',
+		srcJump: 'accets/audio/jump.wav',
+		srcKick: 'accets/audio/kick.wav',
+		srcSqueak: 'accets/audio/squeak.wav',
 	}
 
 	_backgroundImage = {
@@ -55,6 +61,13 @@ export default class Config {
 	_gameOverImage = { x: 193, y: 228, w: 188, h: 38 }
 	_startButton = { x: 246, y: 400, w: 84, h: 28 }
 
+	set pipes(speed){
+		if(speed === 'default'){
+			this._pipes.speed = 4.6
+		} else {
+			this._pipes.speed = this._pipes.speed + speed
+		}
+	}
 	get speedGame(){
 		return this._speedGame
 	}
@@ -69,6 +82,9 @@ export default class Config {
 	}
 	get spritesheet(){
 		return this._spritesheet
+	}
+	get audio(){
+		return this._audio
 	}
 	get backgroundImage(){
 		return this._backgroundImage

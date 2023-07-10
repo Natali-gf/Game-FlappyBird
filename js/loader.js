@@ -9,12 +9,23 @@ export default class Loader {
 				image.addEventListener('error', () => reject(error));
 				image.src = src;
 			})
+		},
+		audio: ({src}) => {
+			return new Promise((resolve) => {
+				const audio = new Audio(src)
+				resolve(audio);
+			})
 		}
 	}
 
 	async loadSpriteSheet(config) {
-		const loadImage = this.load.spritesheet
+		const loadImage = this._load.spritesheet
 		return await loadImage(config)
+	}
+
+	async loadAudio(config) {
+		const loadSound = this._load.audio
+		return await loadSound(config)
 	}
 
 	get load(){

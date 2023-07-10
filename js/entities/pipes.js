@@ -18,7 +18,6 @@ export default class Pipes extends BaseEntity{
 
 		this._gameOver = props.gameOver;
 		this._score = props.score;
-		this._speed = props.config.speed;
 		this.newPipes()
 	}
 
@@ -29,10 +28,10 @@ export default class Pipes extends BaseEntity{
 		})
 	}
 
-	update(bird){
+	update(bird, speed, sounds){
 		this._pipes.forEach((elem, index, array) => {
-			elem.pipeTop.positionX = elem.pipeTop.positionX - (this._speed)
-			elem.pipeBottom.positionX = elem.pipeBottom.positionX - (this._speed)
+			elem.pipeTop.positionX = elem.pipeTop.positionX - (speed);
+			elem.pipeBottom.positionX = elem.pipeBottom.positionX - (speed);
 
 			if( (bird.positionX + bird.positionWidth >= elem.pipeTop.positionX
 				&& bird.positionX + bird.positionWidth <= elem.pipeTop.positionX + this._pipeWidth
@@ -46,13 +45,15 @@ export default class Pipes extends BaseEntity{
 				|| bird.positionX >= elem.pipeBottom.positionX
 				&& bird.positionX <= elem.pipeBottom.positionX + this._pipeWidth)
 				&& bird.positionY + bird.positionHeight >= elem.pipeBottom.positionY ) {
+					sounds.squeak.play();
 					this._gameOver()
 			}
 
 			if(index === this._pipeIndex){
 				if(elem.pipeTop.positionX + (this._pipeWidth / 2) < bird.positionX + bird.positionWidth){
-					this._score.incScore()
-					this._pipeIndex++
+					this._score.incScore();
+					this._pipeIndex++;
+					sounds.scoreUp.play();
 				}
 			}
 			if(index === this._pipes.length - 1){
@@ -107,9 +108,6 @@ export default class Pipes extends BaseEntity{
 	}
 	get score(){
 		return this._score
-	}
-	get speed(){
-		return this._speed
 	}
 	get pipesInterval(){
 		return this._pipesInterval
