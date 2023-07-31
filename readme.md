@@ -1,12 +1,12 @@
-Popova Nataliia
+# Popova Nataliia
 
-Stack:
-- JavaScript
-- OOP
-- html
-- sass
-- Git / GitHub
-- canvas animation
+> ## Stack:
+> - JavaScript
+> - OOP
+> - html
+> - sass
+> - Git / GitHub
+> - canvas animation
 
 ФУНКЦИОНАЛЬНЫЕ ТРЕБОВАНИЯ
 + Птица не должна улетать за границы поля. Если птица касается земли, игра заканчивается, если «потолка» — игра продолжается.
